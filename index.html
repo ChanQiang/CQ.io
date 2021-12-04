@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				//添加数量
+				$(".addbtn").click(function(){
+					var objtxt=$(this).siblings("input[type='text']");
+					var nuber=parseInt(objtxt.val());
+					objtxt.val(nuber+1)
+					calprice($(this),nuber+1)
+					sumprice()
+				})
+				//减少数量
+				$(".minbtn").click(function(){
+					var objtxt=$(this).siblings("input[type='text']");
+					var nuber=parseInt(objtxt.val());
+					objtxt.val(nuber-1)
+					calprice($(this),nuber-1)
+					sumprice()
+				})
+				function calprice($obj,num){
+					var tdobj=$obj.parent().next();
+					var price=parseFloat(tdobj.text().substr(1));
+					var $total=tdobj.next()
+					var total=price*num;
+					$($total).html("￥"+total.toFixed(2))
+				}
+				function sumprice(){
+					var sum=0
+					$("td[title='price']").each(function(index,element){
+						sum+=parseFloat($(this).text().substr(1))
+					})
+					$("span").html("￥"+sum.toFixed(2))
+				}
+					
+			})
+			function T(){
+				var now=new Date()
+				var y=now.getFullYear()
+				var m=now.getMonth()+1
+				var d=now.getDate()
+				var h=now.getHours()
+				var f=now.getMinutes()
+				var s=now.getSeconds()
+				$("#T1").html(y+"年"+m+"月"+d+"日"+h+":"+f+":"+s)
+			}
+			setInterval("T()",500);
+		</script>
+	</head>
+	<body>
+		<table id="tab" border="1">
+			<tr>
+				<th>项目</th>
+				<th>状态</th>
+				<th>数量</th>
+				<th>单价</th>
+				<th>小计</th>
+			</tr>
+			<tr>
+				<td><img src="img/item1.jpg" />欢乐KTV</td>
+				<td>可购买</td>
+				<td><input type="button" value="-" class="minbtn" />
+				<input type="text" value="1" disabled="disabled" />
+				<input type="button" value="+" class="addbtn" /></td>
+				<td>￥39.9</td>
+				<td title="price">￥39.9</td>
+			</tr>
+			<tr>
+				<td><img src="img/item2.jpg" />大地KTV</td>
+				<td>可购买</td>
+				<td><input type="button" value="-" class="minbtn" />
+				<input type="text" value="1" disabled="disabled" />
+				<input type="button" value="+" class="addbtn" /></td>
+				<td>￥59.9</td>
+				<td title="price">￥59.9</td>
+			</tr>
+			<tr>
+				<td colspan="4">应付款：<span></span></td>
+			</tr>
+			<tr>
+				<td colspan="5" style="text-align: right;"><span id="T1"></span></td>
+			</tr>
+		</table>
+	</body>
+</html>
